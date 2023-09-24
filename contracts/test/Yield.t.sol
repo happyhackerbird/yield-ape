@@ -3,6 +3,7 @@ pragma solidity ^0.8.13;
 
 import "lib/forge-std/src/Test.sol";
 import "src/Yield.sol";
+import "lib/forge-std/src/console.sol";
 
 contract YieldTest is Test {
     Yield yield;

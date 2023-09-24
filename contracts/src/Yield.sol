@@ -2,9 +2,10 @@
 pragma solidity ^0.8.13;
 import "lib/axelar-gmp-sdk-solidity/contracts/executable/AxelarExecutable.sol";
 import "src/interfaces/IPool.sol";
+import "src/interfaces/IERC20.sol";
 
 contract Yield is AxelarExecutable {
-    address constant AAVE_POOL = 0xA238Dd80C259a72e81d7e4664a9801593F98d1c5; //mainnet
+    // address constant AAVE_POOL = 0xA238Dd80C259a72e81d7e4664a9801593F98d1c5; //mainnet
 
     constructor(address gateway_) AxelarExecutable(gateway_) {}
 
@@ -25,6 +26,6 @@ contract Yield is AxelarExecutable {
         // IPool(AAVE_POOL).deposit(tokenAddress, amount, recipient, 0);
 
         // transfer received tokens to the recipient
-        // IERC20(tokenAddress).transfer(recipient, amount);
+        IERC20(tokenAddress).transfer(recipient, amount);
     }
 }
