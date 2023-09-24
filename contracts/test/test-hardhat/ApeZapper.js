@@ -1,15 +1,17 @@
 const { ethers } = require('ethers');
 const axios = require("axios")
+require("dotenv").config(({ path: ".env" }));
+const PRIVATE_KEY = process.env.PRIVATE_KEY;
 //const {deploy, deployProxy} = require("../../script/utils")
 //const {erc20_abi} = require("../../external_abi/erc20.abi.json")
 
-const oneInchEndpoint = ({srcAmount, srcToken, dstToken, fromAddr, receiverAddr}) =>
+const oneInchEndpoint = ({ srcAmount, srcToken, dstToken, fromAddr, receiverAddr }) =>
   `https://api.1inch.dev/swap/v5.2/8453/swap?amount=${srcAmount}&src=${srcToken}&dst=${dstToken}&from=${fromAddr}&receiver=${receiverAddr}&slippage=0&disableEstimate=true`
 
-const getOneInchSwapCallData = async ({srcAmount, srcToken, dstToken, fromAddr, receiverAddr}) => {
+const getOneInchSwapCallData = async ({ srcAmount, srcToken, dstToken, fromAddr, receiverAddr }) => {
   try {
     const bearerToken = "Dh3qLfn4SEXHOtKTdNq5mrTWo5OSVET8"
-    const res = await axios.get(oneInchEndpoint({srcAmount, srcToken, dstToken, fromAddr, receiverAddr}), {
+    const res = await axios.get(oneInchEndpoint({ srcAmount, srcToken, dstToken, fromAddr, receiverAddr }), {
       headers: {
         Authorization: `Bearer ${bearerToken}`, // Adding the authorization token to the headers
       },
@@ -29,7 +31,9 @@ const getOneInchSwapCallData = async ({srcAmount, srcToken, dstToken, fromAddr, 
 
 async function callFunction() {
   const provider = new ethers.providers.JsonRpcProvider('https://mantle.rpc.thirdweb.com');
-  const signer = provider.getSigner();
+  const signer = new ethers.Wallet(PRIVATE_KEY, provider);
+  // const signer = wallet.provider.getSigner(wallet.address);
+  // const signer = provider.getSigner();
 
   const contractAddress = '0x57e13D4A517CAe90F4680b3c4E8637495D3858A6';
   const contractAbi = [
@@ -159,11 +163,11 @@ async function callFunction() {
   ];
 
   const payload = "0x12aa3caf00000000000000000000000026271dfddbd250014f87f0f302c099d5a798bab1000000000000000000000000eb466342c4d449bc9f53a865d5cb90586f405215000000000000000000000000d9aaec86b65d86f6a7b5b1b0c42ffa531710b6ca00000000000000000000000026271dfddbd250014f87f0f302c099d5a798bab1000000000000000000000000a233441c94b2e13eaa9147849c1ed7e774c03047000000000000000000000000000000000000000000000000000000000000000100000000000000000000000000000000000000000000000000000000000000010000000000000000000000000000000000000000000000000000000000000004000000000000000000000000000000000000000000000000000000000000014000000000000000000000000000000000000000000000000000000000000001600000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000016e0000000000000000000000000000000000000000000000000000000001505126e11b93b61f6291d35c5a2bea0a9ff169080160cfeb466342c4d449bc9f53a865d5cb90586f4052150004f41766d80000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000a00000000000000000000000001111111254eeb25477b68fb85ed929f73a9605820000000000000000000000000000000000000000000000000000000065165f3c0000000000000000000000000000000000000000000000000000000000000001000000000000000000000000eb466342c4d449bc9f53a865d5cb90586f405215000000000000000000000000d9aaec86b65d86f6a7b5b1b0c42ffa531710b6ca00000000000000000000000000000000000000000000000000000000000000010000000000000000000000000000000000008b1ccac8"
-  
+
   const contract = new ethers.Contract(contractAddress, contractAbi, signer);
 
   // Call a view function
-  const result = await contract.ape(payload, 100, "0x0a1d576f3eFeF75b330424287a95A366e8281D54");
+  const result = await contract.ape(payload, 100, "0x0a1d576f3eFeF75b330424287a95A366e8281D54", { gasLimit: 10000000, gasPrice: ethers.utils.parseUnits('50', 'gwei') });
   await result.wait();
   console.log(result);
 }
@@ -185,7 +189,7 @@ const main = async () => {
   // // this.USDbCBase = new ethers.Contract(USDbCAddressBase, erc20_abi, this.deployer)
 
   // //this.apeZapper = await deploy("ApeZapper", "ApeZapper", [this.oneInchRouterAddress])
-  
+
   // //this.tokenIn = this.axlUSDCBase
   // //this.amountIn = ethers.utils.parseEther("10")
   // this.swapCallData = await getOneInchSwapCallData({
