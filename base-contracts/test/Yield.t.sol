@@ -1,8 +1,8 @@
 // SPDX-License-Identifier: UNLICENSED
 pragma solidity ^0.8.13;
 
-import "forge-std/Test.sol";
-import "../src/Yield.sol";
+import "lib/forge-std/src/Test.sol";
+import "src/Yield.sol";
 
 contract YieldTest is Test {
     Yield yield;
@@ -15,10 +15,10 @@ contract YieldTest is Test {
     function test_executeWithToken() public {
         yield.executeWithToken(
             bytes32(0),
-            "sourceChain",
-            "sourceAddress",
+            "mantle",
+            "0xe432150cce91c13a887f7D836923d5597adD8E31",
             "payload",
-            "USDbC",
+            "weth-wei",
             100
         );
     }

@@ -16,14 +16,15 @@ contract Yield is AxelarExecutable {
         uint256 amount
     ) internal override {
         // decode recipient
-        address recipient = address(this);
-        // abi.decode(payload, (address));
+        // address recipient = address(this);
+        address recipient = abi.decode(payload, (address));
         // get ERC-20 address from gateway
         address tokenAddress = gateway.tokenAddresses(tokenSymbol);
 
         // deposit into Aave
-        IPool(AAVE_POOL).deposit(tokenAddress, amount, recipient, 0);
+        // IPool(AAVE_POOL).deposit(tokenAddress, amount, recipient, 0);
+
         // transfer received tokens to the recipient
-        // IERC20(tokenAddress).transfer(recipient, amount);
+        IERC20(tokenAddress).transfer(recipient, amount);
     }
 }
