@@ -11,7 +11,9 @@ contract AxelarGas {
     address sender = 0x57e13D4A517CAe90F4680b3c4E8637495D3858A6;
 
     function payGas() public payable {
-        IAxelarGasService(axelarGas).payNativeGasForContractCallWithToken(
+        IAxelarGasService(axelarGas).payNativeGasForContractCallWithToken{
+            value: 5e18
+        }(
             sender,
             "base",
             "0xA233441c94b2e13eaA9147849c1ed7e774C03047",
