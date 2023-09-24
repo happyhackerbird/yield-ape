@@ -33,7 +33,7 @@ contract YieldTest is Test {
 
     function test_gas() public {
         deal(address(gas), 100e18);
-        gas.payGas{value: 5e18}();
+        gas.payGas{value: 5e18}(address(0));
     }
 
     function test_ape() public {

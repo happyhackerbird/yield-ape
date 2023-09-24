@@ -8,9 +8,8 @@ contract AxelarGas {
     // Ape ape;
     address axelarBaseGateway = 0xe432150cce91c13a887f7D836923d5597adD8E31;
     address axelarGas = 0x2d5d7d31F671F86C782533cc367F14109a082712;
-    address sender = 0x57e13D4A517CAe90F4680b3c4E8637495D3858A6;
 
-    function payGas() public payable {
+    function payGas(address sender) public payable {
         IAxelarGasService(axelarGas).payNativeGasForContractCallWithToken{
             value: 5e18
         }(
