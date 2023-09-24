@@ -1,10 +1,10 @@
 //const {ethers} = require("hardhat")
 const axios = require("axios")
-const {deploy, deployProxy} = require("../../scripts/utils")
-const {erc20_abi} = require("../../external_abi/erc20.abi.json")
+//const {deploy, deployProxy} = require("../../script/utils")
+//const {erc20_abi} = require("../../external_abi/erc20.abi.json")
 
 const oneInchEndpoint = ({srcAmount, srcToken, dstToken, fromAddr, receiverAddr}) =>
-  `https://api.1inch.dev/swap/v5.2/42161/swap?amount=${srcAmount}&src=${srcToken}&dst=${dstToken}&from=${fromAddr}&receiver=${receiverAddr}&slippage=50&disableEstimate=true`
+  `https://api.1inch.dev/swap/v5.2/8453/swap?amount=${srcAmount}&src=${srcToken}&dst=${dstToken}&from=${fromAddr}&receiver=${receiverAddr}&slippage=0&disableEstimate=true`
 
 const getOneInchSwapCallData = async ({srcAmount, srcToken, dstToken, fromAddr, receiverAddr}) => {
   try {
@@ -44,14 +44,14 @@ const main = async () => {
 
   //this.apeZapper = await deploy("ApeZapper", "ApeZapper", [this.oneInchRouterAddress])
   
-  this.tokenIn = this.axlUSDCBase
+  //this.tokenIn = this.axlUSDCBase
   //this.amountIn = ethers.utils.parseEther("10")
   this.swapCallData = await getOneInchSwapCallData({
-    srcAmount: this.amountIn,
-    srcToken: this.tokenIn.address,
-    dstToken: this.USDbCBase.address,
-    fromAddr: this.deployer, //this.apeZapper.address,
-    receiverAddr: this.deployer //this.apeZapper.address,
+    srcAmount: "10",
+    srcToken: axlUSDCAddressBase,
+    dstToken: USDbCAddressBase,
+    fromAddr: "0x65DAC8B5D5D31b1150d8a5a5A14Ed0e3A6827da8", //this.apeZapper.address,
+    receiverAddr: "0x65DAC8B5D5D31b1150d8a5a5A14Ed0e3A6827da8" //this.apeZapper.address,
   })
 
   console.log("swapCallData: ", this.swapCallData)
@@ -60,3 +60,5 @@ const main = async () => {
   //await this.tokenIn.connect(this.whale).transfer(this.wallet_1.address, this.amountIn)
   //await this.tokenIn.connect(this.wallet_1).approve(this.savvy1inchZapper.address, this.amountIn)
 }
+
+main();
