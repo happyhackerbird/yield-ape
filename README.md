@@ -1,5 +1,5 @@
 # YieldApe
-*Winner of Best DeFi on Mantle at ETHGlobal 2023 New York* 🏆
+*Winner of Best DeFi on Mantle at ETHGlobal 2023 New York* 🏆 ([Project Showcase](https://ethglobal.com/showcase/yield-ape-2w6d1))
 
 YieldApe is your one-stop shop to access any yield strategy on any network with any starting token position. 
 
