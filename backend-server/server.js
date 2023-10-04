@@ -9,7 +9,7 @@ app.use(cors({
     origin: 'https://localhost:3000', // allow the specific origin
     allowedHeaders: ['Content-Type', 'Authorization'], // explicitly allow Authorization header
     methods: ["GET", "POST", "OPTIONS"], // allowed methods
-  }));
+}));
 
 app.get('/api/proxy', async (req, res) => {
     console.log('Proxy request to: ' + req.query.endpoint);
